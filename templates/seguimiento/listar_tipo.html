@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+{% load static %}
+ {% block titulo %}
+   listado de Tipos
+ {% endblock titulo %}
+ {% block body %}
+ 
+   {% if tipos %}
+
+
+   <div class="card">
+    <div class="card-header">
+        <strong class="card-title">Listado de Tipos</strong>
+    </div>
+   <div class="table-stats order-table ov-h">
+   <table class="table"> 
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Tipo</th>
+                <th>Opciones</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for tipos in tipos %}
+            <tr>
+                <td>{{ tipos.id }}</td>
+                <td>{{ tipos.tipo }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{% url 'seguimiento:editar_tipo' tipos.id %}" class="btn btn-primary">editar</a>
+                
+                    <a class="btn btn-danger"  href="{% url 'seguimiento:eliminar_tipo' tipos.id %}" class="btn btn-danger" >eliminar</a>
+                </td>
+            </tr>
+            {%  endfor %}
+
+        </tbody>
+
+
+   </table>
+
+</div>
+</div>
+
+   {% else %}
+        <h1>No existe Tipos</h1>
+   {% endif%}
+     
+ 
+   {% endblock body %}
+ 

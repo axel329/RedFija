@@ -1,0 +1,22 @@
+
+ {% extends 'index.html' %}
+ {% block titulo %}
+   eliminación de Tipos
+ {% endblock titulo %}
+ {% block body %}
+ 
+   <form method="POST" >
+     
+     {% csrf_token %} 
+ <h2>¿Desea eliminar el registro {{ tipo.tipo }}?</h2>
+     
+       <button type="submit"> Eliminar </button>
+       <a href="{% url 'seguimiento:listar_tipo' %}">Cancelar</a>
+     
+ 
+    
+   </form>
+     
+ 
+   {% endblock body %}
+ 

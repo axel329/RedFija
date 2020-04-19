@@ -1,0 +1,66 @@
+from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
+from .forms import TipoForm
+from .models import Tipo_seguimiento, Seguimiento
+from django.views.generic import TemplateView, View 
+
+'''
+    1. - dispatch(): valida la petición y elige que metodo HTTP se utilizo para la solicitud
+    2. - http_method_not_allowed(): retorna un error cuando se utiliza un metodo HTTP no soportado o definido
+    3. - options()
+'''
+
+# Create your views here.
+
+
+class Inicio(TemplateView):
+    template_name = 'index.html'
+
+def crearTipo(request):
+    if request.method == 'POST':
+        tipo_form = TipoForm(request.POST)
+        if tipo_form.is_valid():
+            tipo_form.save()
+            return redirect('index')
+
+    else:
+
+        tipo_form = TipoForm()
+
+    return render(request,'seguimiento/crear_tipo.html',{'tipo_form':tipo_form})
+
+def listarTipo(request):
+    tipos = Tipo_seguimiento.objects.all()
+    return render(request, 'seguimiento/listar_tipo.html',{'tipos':tipos})
+
+
+def editarTipo(request,id):
+
+    tipo_form = None
+    error = None
+    try:
+        tipo = Tipo_seguimiento.objects.get(id = id)
+        if request.method == 'GET':
+            tipo_form = TipoForm(instance= tipo)
+        else:
+            tipo_form = TipoForm(request.POST, instance= tipo)
+            if tipo_form.is_valid():
+                tipo_form.save()
+            return redirect('index')
+    
+    except ObjectDoesNotExist as e:
+
+        error = e
+
+    return render(request, 'seguimiento/crear_tipo.html', {'tipo_form':tipo_form, 'error':error})
+
+def eliminarTipo(request, id):
+
+    tipo = Tipo_seguimiento.objects.get(id = id)
+
+    if request.method == 'POST':
+
+        tipo.delete()
+        return redirect('seguimiento:listar_tipo')
+    return render(request, 'seguimiento/eliminar_tipo.html', {'tipo':tipo})
+
