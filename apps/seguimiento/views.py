@@ -19,9 +19,30 @@ class Inicio(TemplateView):
     template_name = 'index.html'
 
 class ListadoTipo(ListView):
+    model = Tipo_seguimiento
     template_name = 'seguimiento/tipos/listar_tipo.html'
     context_object_name = 'tipos'
-    queryset = Tipo_seguimiento.objects.filter(estado = True)
+    form_class = TipoForm
+    #queryset = Tipo_seguimiento.objects.filter(estado = True)
+
+    def get_queryset(self):
+        return self.model.objects.filter(estado = True)
+
+    def get_context_data(self):
+        contexto = {}
+        contexto['tipos'] = self.get_queryset()
+        contexto['form'] = self.form_class
+        return contexto
+
+    def get(self, request, *args, **kwargs):
+       
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self,request,*args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('seguimiento:listar_tipo')
 
 class ActualizarTipo(UpdateView):
     model = Tipo_seguimiento
