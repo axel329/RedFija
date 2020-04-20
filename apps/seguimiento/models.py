@@ -28,6 +28,7 @@ class Seguimiento(models.Model):
     descripcion=models.TextField(verbose_name="Descripción")
     fecha_apertura=models.DateField()
     estado_siebel=models.CharField(max_length=10, null=False, blank=True)
+    estado = models.BooleanField('Estado', default=True)
     grupo=models.CharField(max_length=10, null=True, blank=True)
     asunto_correo=models.CharField(max_length=30, null=False, blank=True)
     empresa=models.CharField(max_length=30, null=False, blank=True)

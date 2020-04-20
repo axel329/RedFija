@@ -1,0 +1,79 @@
+{% extends 'index.html' %}
+{% load static %}
+ {% block titulo %}
+   listado de Seguimientos
+ {% endblock titulo %}
+ {% block body %}
+ 
+   {% if seguimientos %}
+
+
+   <div class="card">
+    <div class="card-header">
+        <strong class="card-title">Listado de Seguimientos</strong>
+    </div>
+   <div class="table-stats order-table ov-h">
+   <table class="table"> 
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Numero</th>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Telefono</th>
+                <th>Dirección</th>
+                <th>Departamento</th>
+                <th>Ciudad</th>
+                <th>Descripción</th>
+                <th>Fecha Apertura</th>
+                <th>Estado Siebel</th>
+                <th>Grupo</th>
+                <th>Tipo</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for seguimientos in seguimientos %}
+            <tr>
+                <td>{{ seguimientos.id }}</td>
+                <td>{{ seguimientos.numero_seguimiento }}</td>
+                <td>{{ seguimientos.cedula }}</td>
+                <td>{{ seguimientos.nombre }}</td>
+                <td>{{ seguimientos.telefono }}</td>
+                <td>{{ seguimientos.direccion }}</td>
+                <td>{{ seguimientos.departamento }}</td>
+                <td>{{ seguimientos.ciudad }}</td>
+                <td>{{ seguimientos.descripcion }}</td>
+                <td>{{ seguimientos.fecha_apertura }}</td>
+                <td>{{ seguimientos.estado_siebel }}</td>
+                <td>{{ seguimientos.grupo }}</td>
+                <td>
+                    {% for tipo in seguimientos.tipo_seguimiento.all %}
+
+                   <li> {{ tipo.tipo }}</li>
+                    {% endfor %}
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="{% url 'seguimiento:editar_pqr' seguimientos.id %}" class="btn btn-primary">editar</a>
+                
+                    <a class="btn btn-danger"  href="{% url 'seguimiento:eliminar_pqr' seguimientos.id %}" class="btn btn-danger" >Cerrar</a>
+                </td>
+            </tr>
+            {%  endfor %}
+
+        </tbody>
+
+
+   </table>
+
+</div>
+</div>
+
+   {% else %}
+        <h1>No existe Seguimientos</h1>
+   {% endif%}
+     
+ 
+   {% endblock body %}
+ 
