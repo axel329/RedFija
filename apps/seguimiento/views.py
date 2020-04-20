@@ -38,17 +38,17 @@ class ListadoTipo(ListView):
        
         return render(request, self.template_name, self.get_context_data())
 
-    def post(self,request,*args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('seguimiento:listar_tipo')
 
 class ActualizarTipo(UpdateView):
     model = Tipo_seguimiento
-    template_name = 'seguimiento/tipos/crear_tipo.html'
+    template_name = 'seguimiento/tipos/tipo.html'
     form_class = TipoForm
     success_url = reverse_lazy('seguimiento:listar_tipo')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tipos'] = Tipo_seguimiento.objects.filter(estado=True)
+        return context
 
 class CrearTipo(CreateView):
     model = Tipo_seguimiento
@@ -89,16 +89,16 @@ class ListadoPqr(View):
        
         return render(request, self.template_name, self.get_context_data())
 
-    def post(self,request,*args, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('seguimiento:listar_pqr')
+class CrearPqr(CreateView):
+    model = Seguimiento
+    form_class = PqrForm
+    template_name = 'seguimiento/proyectos/pqr/crear_pqr.html'
+    success_url = reverse_lazy('seguimiento:listar_pqr')
 
 
 class ActualizarPqr(UpdateView):
     model = Seguimiento
-    template_name = 'seguimiento/proyectos/pqr/listar_pqr.html'
+    template_name = 'seguimiento/proyectos/pqr/pqr.html'
     form_class = PqrForm
     success_url = reverse_lazy('seguimiento:listar_pqr')
 

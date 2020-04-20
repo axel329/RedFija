@@ -4,6 +4,11 @@
    listado de Seguimientos
  {% endblock titulo %}
  {% block body %}
+
+ <div>
+
+     <button class="btn btn-primary" type="button" onclick="abrir_modal_creacion('{% url 'seguimiento:crear_pqr' %}')">Crear PQR</button>
+ </div>
  
    {% if seguimientos %}
 
@@ -55,9 +60,8 @@
                     {% endfor %}
                 </td>
                 <td>
-                    <a class="btn btn-primary" href="{% url 'seguimiento:editar_pqr' seguimientos.id %}" class="btn btn-primary">editar</a>
-                
-                    <a class="btn btn-danger"  href="{% url 'seguimiento:eliminar_pqr' seguimientos.id %}" class="btn btn-danger" >Cerrar</a>
+                    <button onclick="abrir_modal_edicion('{% url 'seguimiento:editar_pqr' seguimientos.id %}')" class="btn btn-primary" >Editar</button>
+                    <a  href="{% url 'seguimiento:eliminar_pqr' seguimientos.id %}" class="btn btn-danger">Cerrar</a>
                 </td>
             </tr>
             {%  endfor %}
@@ -75,24 +79,28 @@
    {% endif%}
 
 
+   <div class="modal fade" id="creacion" role="dialog">
+   </div>
+   <div class="modal fade" id="edicion" role="dialog">
+    </div>
 
-   <form method="POST" enctype="multipart/form-data" class="form-horizontal" >
-    {% csrf_token %} 
-    
-        <div class="card"></div>
-                <div class="card-header"> 
-                        <strong>Formulacio de registro  </strong>
-                </div>
- 
-                <div class="card-body card-block"></div>
-                       
-                            {{form.as_p}}
-                        
-                 </div>
-                 
-             </div>
-             <button class="btn btn-success" type="submit"> Registrar</button>
-    </form>
+{% block extrajs %}
+<script type="text/javascript"> 
+    var $ = jQuery.noConflict();
+    function abrir_modal_edicion(url){
+        $('#edicion').load(url, function(){
+            $(this).modal('show');
+        });
+    }
+
+    function abrir_modal_creacion(url){
+        $('#creacion').load(url,function(){
+            $(this).modal('show');
+        });
+    }
+</script>
+{% endblock extrajs %}
+
      
  
    {% endblock body %}

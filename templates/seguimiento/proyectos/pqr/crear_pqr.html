@@ -1,29 +1,25 @@
-
- {% extends 'index.html' %}
- {% block titulo %}
-   creación de PQRs
- {% endblock titulo %}
- {% block body %}
- 
- <form method="POST" enctype="multipart/form-data" class="form-horizontal" >
-    {% csrf_token %} 
+<div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
     
-        <div class="card"></div>
-                <div class="card-header"> 
-                        <strong>Formulacio de registro  </strong>
-                </div>
- 
-                <div class="card-body card-block"></div>
-                       
-                            {{form.as_p}}
-                        
-                 </div>
-                 
-             </div>
-             <button class="btn btn-success" type="submit"> Registrar</button>
-    </form>
- 
-     {% endblock body %}
- 
+                <h2 class="modal-title"> Creación de PQR:</h2>
+                <button class="close" type="button" data-dismiss = "modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+    
+        <form action="{% url 'seguimiento:crear_pqr' %}" method="POST">
+            {% csrf_token %}
+    
+            <div class="modal-body">
+                {{form.as_p}}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" type="submit" data-dismiss = "modal">Cancelar </button>
+                <button class="btn btn-primary" type="submit" >Confirmar </button>
+            </div>
+        </form>
+        </div>
+    </div>
  
  

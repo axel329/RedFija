@@ -1,43 +1,25 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
 
- {% extends 'index.html' %}
-{% block titulo %}
-  creación de Tipos
-{% endblock titulo %}
-{% block body %}
+          <h2 class="modal-title"> Creación de Tipos</h2>
+          <button class="close" type="button" data-dismiss = "modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
 
+  <form action="{% url 'seguimiento:crear_tipo' %}" method="POST">
+      {% csrf_token %}
 
-    {% if error %}
-      <h2>{{ error }}</h2>
-
-    {% else %}
-   
-<div class="card"></div>
-    <div class="card-header"> 
-
-        <strong>Formulacio de registro  </strong>
-    </div>
-
-    <div class="card-body card-block"></div>
-    
-      <form method="POST" enctype="multipart/form-data" class="form-horizontal" >
-        {% csrf_token %} 
-
-        <div class="row form-group">
-            <div class="col col-md-3"> {{ form.tipo.label }}</div>
-            <div class="col-12 col-md-9"> {{ form.tipo}}</div>
-        </div>
-
-        <div class="center">
-          <button type="submit" class="btn btn-primary">  Registrar </button>
-          <a href="{% url 'seguimiento:listar_tipo' %}" class="btn btn-danger">Cancelar</a>
-        </div>
-
-      
-      </form>
-    </div>
+      <div class="modal-body">
+          {{form.as_p}}
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-danger" type="submit" data-dismiss = "modal">Cancelar </button>
+          <button class="btn btn-primary" type="submit" >Confirmar </button>
+      </div>
+  </form>
   </div>
-    {% endif %}
-
-    {% endblock body %}
+</div>
 
 

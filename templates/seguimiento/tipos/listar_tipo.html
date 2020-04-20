@@ -4,6 +4,11 @@
    listado de Tipos
  {% endblock titulo %}
  {% block body %}
+
+ <div>
+
+    <button class="btn btn-primary" type="button" onclick="abrir_modal_creacion('{% url 'seguimiento:crear_tipo' %}')">Crear Tipo</button>
+</div>
  
    {% if tipos %}
 
@@ -29,7 +34,7 @@
                 <td>{{ tipos.id }}</td>
                 <td>{{ tipos.tipo }}</td>
                 <td>
-                    <a class="btn btn-primary" href="{% url 'seguimiento:editar_tipo' tipos.id %}" class="btn btn-primary">editar</a>
+                    <button onclick="abrir_modal_edicion('{% url 'seguimiento:editar_tipo' tipos.id %}')" class="btn btn-primary" >Editar</button>
                 
                     <a class="btn btn-danger"  href="{% url 'seguimiento:eliminar_tipo' tipos.id %}" class="btn btn-danger" >eliminar</a>
                 </td>
@@ -47,23 +52,30 @@
    {% else %}
         <h1>No existe Tipos</h1>
    {% endif%}
-     
 
-   <form method="POST" enctype="multipart/form-data" class="form-horizontal" >
-    {% csrf_token %} 
+   <div class="modal fade" id="creacion" role="dialog">
+</div>
+<div class="modal fade" id="edicion" role="dialog">
+ </div>
 
-    <div class="row form-group">
-        <div class="col col-md-3"> {{ form.tipo.label }}</div>
-        <div class="col-12 col-md-9"> {{ form.tipo}}</div>
-    </div>
+{% block extrajs %}
+<script type="text/javascript"> 
+ var $ = jQuery.noConflict();
+ function abrir_modal_edicion(url){
+     $('#edicion').load(url, function(){
+         $(this).modal('show');
+     });
+ }
 
-    <div class="center">
-      <button type="submit" class="btn btn-primary">  Registrar </button>
-      <a href="{% url 'seguimiento:listar_tipo' %}" class="btn btn-danger">Cancelar</a>
-    </div>
+ function abrir_modal_creacion(url){
+     $('#creacion').load(url,function(){
+         $(this).modal('show');
+     });
+ }
+</script>
+{% endblock extrajs %}
 
-  
-  </form>
+
  
    {% endblock body %}
  
